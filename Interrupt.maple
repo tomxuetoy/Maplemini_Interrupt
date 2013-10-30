@@ -1,0 +1,29 @@
+// pin13 to enable the interrupt, so we need to connect pin13 to pin0(interrupt input pin)
+
+volatile int state = LOW; // must declare volatile, since it's
+// modified within the blink() handler
+int pin13 = 13;
+
+void setup() {
+	pinMode(BOARD_LED_PIN, OUTPUT);
+	pinMode(0, INPUT);
+	pinMode(pin13, OUTPUT);    
+	attachInterrupt(0, blink, RISING);
+}
+
+void loop() {
+	digitalWrite(BOARD_LED_PIN, state);
+
+	digitalWrite(pin13, HIGH); // turn the LED on (HIGH is the voltage level)
+	delay(200); // wait for a second
+	digitalWrite(pin13, LOW); // turn the LED off by making the voltage LOW
+	delay(200); // wait for a second
+}
+
+void blink() {
+	if (state == HIGH) {
+		state = LOW;
+	} else { // state must be LOW
+		state = HIGH;
+	}	
+}
